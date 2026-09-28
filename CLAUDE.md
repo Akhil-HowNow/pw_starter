@@ -39,6 +39,8 @@ ESLint (`eslint.config.mjs`, flat config with `typescript-eslint` + `eslint-plug
 - **`.claude/skills/pw-test-writer/`** — project skill that generates new Playwright specs (plus supporting page-object/facade/data changes) matching this repo's conventions; triggered by `/pw-test-writer` or natural-language "write/add a test for..." requests.
 - **`.claude/skills/pw-code-review/`** — project skill that reviews changes (git diff by default) against `agent-context/CODING_GUIDELINES.md` plus investigative coverage checks; runs affected tests only (no lint/tsc/format checks), report-only. Triggered by `/pw-code-review` or "review my changes/spec" requests.
 
+- **`.github/workflows/ai-review.yml`** — PR comment `ai_review` (collaborators only) runs `anthropics/claude-code-action` with the `pw-code-review` skill and posts the review as a PR comment; gated on the `static-checks` commit status (comment `static_check` first) and sets an `ai-review` status. Requires the `CLAUDE_CODE_OAUTH_TOKEN` repo secret (generate with `claude setup-token`).
+
 ## References
 
 - **`agent-context/CODING_GUIDELINES.md`** — coding standards for SDETs (layering, naming, locators, assertions, test design, review checklist). Follow it for all new code.
