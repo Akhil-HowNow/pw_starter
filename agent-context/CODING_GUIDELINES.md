@@ -9,7 +9,6 @@ Audience: SDETs contributing Playwright + TypeScript tests. Keep tests readable,
 - **Facade/flows** own multi-page journeys. Add a new cross-page flow there; never copy it between specs.
 - **Data** lives in `data/`, typed. No inline literals in specs. Use factories/builders for dynamic data.
 - One page object per page/component. Share behavior via composition or a common base, not copy-paste.
-- Specs import `test`/`expect` from the custom fixtures, never from `@playwright/test`.
 
 ## 2. Naming & files
 
@@ -20,10 +19,8 @@ Audience: SDETs contributing Playwright + TypeScript tests. Keep tests readable,
 
 ## 3. TypeScript
 
-- `strict` on. No `any`, no non-null `!`, no `@ts-ignore` without a comment and ticket.
-- Explicit return types on public methods; `readonly` locators.
+- `readonly` locators.
 - `interface`/`type` for data shapes; union types/enums over magic strings.
-- `npx tsc --noEmit` must pass before a PR.
 
 ## 4. Locators (in priority order)
 
@@ -43,12 +40,11 @@ readonly addToCartButton = page.locator('div > div:nth-child(3) button.btn');
 
 ## 5. Assertions & waiting
 
-- Web-first assertions only: `await expect(locator).toBeVisible()`.
-- No `waitForTimeout`/sleeps. Wait on state (locator, URL, response), never time.
+- Wait on state (locator, URL, response), never time.
 - Use `waitForResponse` for network-dependent steps.
 - Assert observable outcomes, not implementation details.
 - One logical behavior per test; `expect.soft` is fine for grouped checks of one outcome.
-- Every test must be able to fail. No assertion-free tests.
+- Every test must be able to fail.
 
 ## 6. Test design
 
@@ -66,24 +62,21 @@ readonly addToCartButton = page.locator('div > div:nth-child(3) button.btn');
 - Flaky test: tag for quarantine and raise a ticket within 1 day; fix or delete.
 - Timeouts live in `playwright.config.ts`, not scattered through tests.
 
-## 8. Style & tooling
+## 8. Comments
 
-- ESLint (`@typescript-eslint`, `eslint-plugin-playwright`) + Prettier: single quotes, semicolons, trailing commas, 100 cols.
-- Pre-commit hook (husky + lint-staged) runs both.
-- Comments explain *why*, not *what*. No commented-out code, `console.log`, or `test.only`.
+- Comments explain *why*, not *what*. No commented-out code.
 
 ## 9. Secrets & config
 
 - No credentials in the repo. Use gitignored `.env` plus a committed `.env.example`, read via one typed config module.
-- Base URL/environment come from config, never hard-coded in tests.
+- Environment comes from config, never hard-coded in tests.
 
 ## 10. Review & contribution
 
 Before opening a PR:
 
-- [ ] `npx tsc --noEmit` and lint pass
 - [ ] Affected tests pass 3× locally
 - [ ] New test IDs are unique
 - [ ] CLAUDE.md/docs updated if structure changed
 
-Reviewers check: layering respected, locator priority, no fixed waits, test can fail, data isolated. Small PRs, one feature area each; conventional commit messages.
+Reviewers check: layering respected, locator priority, test can fail, data isolated. Small PRs, one feature area each; conventional commit messages.

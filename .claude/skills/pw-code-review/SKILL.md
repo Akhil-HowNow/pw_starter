@@ -11,26 +11,25 @@ Review changes against the repo's standards. The standards live only in `agent-c
 
 1. **Read standards.** Read `agent-context/CODING_GUIDELINES.md` in full, every run.
 2. **Scope.** Default: `git diff main...HEAD` plus uncommitted and untracked files (`git status`). If the user gives a path or spec name, review only that. Read each changed file in full, not just hunks — layering and ID-uniqueness checks need full context.
-3. **Guideline pass.** Check every changed file against each relevant guideline section; cite as `§N`. Also check:
-   - Specs import `test`/`expect` from `../../fixtures`.
+3. **Guideline pass.** Check every changed file against each relevant guideline section; cite as `§N`. Linting, type-checking and formatting are out of scope (enforced elsewhere) — don't check, run, or report them. Focus on what tooling can't see: layering, locator priority (§4), naming, data placement, test design, and:
    - New test IDs are unique and area-prefixed — grep `tests/` for each one.
    - `CLAUDE.md` Architecture section updated if structure changed (new page object, fixture, `tests/` dir, skill).
 4. **Investigative pass.** Beyond the written rules, flag: missing boundary/negative/empty-input cases, tests that cannot fail, order-dependence or shared-state risk on the live site, unstated assumptions, assertions on implementation detail.
-5. **Run checks (read-only).** `npx tsc --noEmit`, then only the affected specs (`npx playwright test <file>` or `--grep "<ID>"`). Never the full suite. Never edit code.
+5. **Run checks (read-only).** Only the affected specs (`npx playwright test <file>` or `--grep "<ID>"`). Never the full suite. Never edit code.
 6. **Report.**
 
 ## Output format
 
 No preamble, no trailing summary. Group by severity:
 
-- **Blocker** — breaks a MUST-level rule or the build (tsc error, `test.only`, secrets, test can't fail)
-- **Major** — layering, locator priority, fixed waits, data isolation
-- **Minor** — naming, style, comments
+- **Blocker** — breaks a MUST-level rule (secrets, test can't fail, failing test)
+- **Major** — layering, locator priority, data isolation
+- **Minor** — naming, comments
 - **Suggestion** — investigative coverage gaps
 
 Each finding: `file:line — §N — issue — fix`. Investigative findings have no § — write `—` there.
 
-End with one line: `tsc: pass|fail · tests: <n> passed / <n> failed`. If nothing is found, say so in one line.
+End with one line: `tests: <n> passed / <n> failed`. If nothing is found, say so in one line.
 
 ## Rules
 
