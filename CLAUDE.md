@@ -11,6 +11,8 @@ Playwright + TypeScript test framework for the demo shop https://practicesoftwar
 ```bash
 npm install && npx playwright install chromium   # one-time setup
 npx tsc --noEmit                                  # typecheck (no build step exists otherwise)
+npm run lint                                      # ESLint (lint:fix to autofix)
+npm run format:check                              # Prettier check (npm run format to write)
 
 npx playwright test                               # run full suite
 npx playwright test tests/cart/cart.spec.ts       # run one file
@@ -23,7 +25,7 @@ npm run test:report                               # open last HTML report
 
 Note: `npm test` only runs the `C01` test in headed mode — it is a quick smoke check, not the suite.
 
-There is no ESLint/Prettier config in this repo despite the global preference to follow existing lint config — match the surrounding code style (single quotes, semicolons, trailing commas) since there's nothing to run.
+ESLint (`eslint.config.mjs`, flat config with `typescript-eslint` + `eslint-plugin-playwright`) and Prettier (`.prettierrc`: single quotes, semicolons, trailing commas, 100 cols) enforce `agent-context/CODING_GUIDELINES.md`. Rules with existing violations (`no-nth-methods`, `no-networkidle`, raw `page.*`/`locator()` in specs, test-title format) are set to `warn`; new code should not add to them.
 
 ## Architecture
 

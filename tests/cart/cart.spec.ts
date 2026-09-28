@@ -55,6 +55,9 @@ test.describe('Cart', () => {
     const input = cartPage.getItemQuantityInput(itemName);
     await input.fill('5');
     await input.press('Tab');
-    await expect(cartPage.cartTotal, 'cart total should update after quantity change').not.toHaveText(before || '', { timeout: 5000 });
+    await expect(
+      cartPage.cartTotal,
+      'cart total should update after quantity change',
+    ).not.toHaveText(before || '', { timeout: 5000 });
   });
 });
