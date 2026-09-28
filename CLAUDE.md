@@ -35,7 +35,9 @@ There is no ESLint/Prettier config in this repo despite the global preference to
 - **`tests/auth.setup.ts`** — Playwright setup project that logs in via UI and saves storage state to `auth.json` (gitignored); run via `npm run setup`. Note: no project in `playwright.config.ts` currently depends on this setup or consumes `auth.json` as `storageState`.
 - Test IDs are prefixed by feature area and are how tests are usually targeted with `--grep`: `P` (product), `C` (cart), `CH` (checkout). Tests are also tagged `@regression`.
 - **`.claude/skills/pw-test-writer/`** — project skill that generates new Playwright specs (plus supporting page-object/facade/data changes) matching this repo's conventions; triggered by `/pw-test-writer` or natural-language "write/add a test for..." requests.
+- **`.claude/skills/pw-code-review/`** — project skill that reviews changes (git diff by default) against `agent-context/CODING_GUIDELINES.md` plus investigative coverage checks; runs `tsc` and affected tests, report-only. Triggered by `/pw-code-review` or "review my changes/spec" requests.
 
 ## References
 
-- **`references/reference.md`** — guidance for writing parameterized (data-driven) test cases.
+- **`agent-context/CODING_GUIDELINES.md`** — coding standards for SDETs (layering, naming, locators, assertions, test design, review checklist). Follow it for all new code.
+- **`agent-context/reference.md`** — guidance for writing parameterized (data-driven) test cases.
